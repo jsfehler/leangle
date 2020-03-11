@@ -6,9 +6,9 @@ from chalice.deploy.swagger import SwaggerGenerator
 _leangle_schemas = {}
 
 # Patches
-from .chalice_patches import _generate_route_method, generate_swagger  # NOQA
+from .chalice_patches import _generate_route_method, patch_generate_swagger  # NOQA
 
-SwaggerGenerator.generate_swagger = generate_swagger
+SwaggerGenerator.generate_swagger = patch_generate_swagger()
 SwaggerGenerator._generate_route_method = _generate_route_method
 
 

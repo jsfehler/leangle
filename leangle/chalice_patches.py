@@ -1,8 +1,8 @@
-import copy
 import inspect
 from typing import Any, Dict, Optional
 
 from chalice.app import Chalice, RouteEntry  # noqa
+from chalice.deploy.swagger import SwaggerGenerator
 from chalice.deploy.models import RestAPI  # noqa
 
 from leangle.leangle import _leangle_schemas
@@ -10,18 +10,17 @@ from leangle.leangle import _leangle_schemas
 from marshmallow_jsonschema import JSONSchema
 
 
-def generate_swagger(self, app, rest_api=None):
+original_generate_swagger = SwaggerGenerator.generate_swagger
+
+
+def patch_generate_swagger():
     """Monkey Patch SwaggerGenerator.generate_swagger."""
-    # type: (Chalice, Optional[RestAPI]) -> Dict[str, Any]
-    api = copy.deepcopy(self._BASE_TEMPLATE)
-    api['info']['title'] = app.app_name
-    self._add_binary_types(api, app)
-    self._add_route_paths(api, app)
-    self._add_resource_policy(api, rest_api)
-    self._add_validators(api, app)
-    self._add_model_definitions(api, rest_api)
-    _add_leangle_schemas(api)
-    return api
+    def generate_swagger(self,
+                         app: Chalice,
+                         rest_api: Optional[RestAPI] = None) -> Dict[str, Any]:
+        api: Dict[str, Any] = original_generate_swagger(app, rest_api)
+        _add_leangle_schemas(api)
+        return api
 
 
 def _add_leangle_schemas(api: Dict):
