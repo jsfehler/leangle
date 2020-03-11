@@ -3,8 +3,6 @@ from leangle.chalice_patches import _add_leangle_schemas
 
 from marshmallow import Schema, fields
 
-from marshmallow_jsonschema import JSONSchema
-
 
 def test_add_leangle_schemas(request):
 
@@ -24,7 +22,16 @@ def test_add_leangle_schemas(request):
 
     expected = {
         'definitions': {
-            'BaseSchema': JSONSchema().dump(BaseSchema())['definitions'],
+            'BaseSchema': {
+                'additionalProperties': False,
+                'properties': {
+                    'name': {
+                        'title': 'name',
+                        'type': 'string',
+                    },
+                },
+                'type': 'object',
+            }
         },
     }
 
