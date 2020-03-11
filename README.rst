@@ -6,7 +6,7 @@ leangle
     :target: https://github.com/jsfehler/leangle/blob/master/LICENSE
 
 
-An add-on for `chalice <https://github.com/aws/chalice>`_ that adds extra functionality.
+An add-on for `chalice <https://github.com/aws/chalice>`_ to improve documentation of an API Gateway.
 
 
 Describe API Responses
