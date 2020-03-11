@@ -2,8 +2,11 @@ from typing import Callable
 
 from chalice.deploy.swagger import SwaggerGenerator
 
-from .chalice_patches import _generate_route_method, generate_swagger
 
+_leangle_schemas = {}
+
+# Patches
+from .chalice_patches import _generate_route_method, generate_swagger  # NOQA
 
 SwaggerGenerator.generate_swagger = generate_swagger
 SwaggerGenerator._generate_route_method = _generate_route_method
@@ -38,9 +41,6 @@ def describe_response(status_code: str, **kwargs: str) -> Callable:
         return func
 
     return annotate_function
-
-
-_leangle_schemas = {}
 
 
 def add_schema(name):

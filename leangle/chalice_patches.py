@@ -2,9 +2,10 @@ import copy
 import inspect
 from typing import Any, Dict, Optional
 
-from chalice.app import Chalice, RestAPI, RouteEntry  # noqa
+from chalice.app import Chalice, RouteEntry  # noqa
+from chalice.deploy.models import RestAPI  # noqa
 
-from leangle import _leangle_schemas
+from leangle.leangle import _leangle_schemas
 
 from marshmallow_jsonschema import JSONSchema
 
