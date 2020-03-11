@@ -2,9 +2,10 @@ from typing import Callable
 
 from chalice.deploy.swagger import SwaggerGenerator
 
-from .chalice_patches import _generate_route_method
+from .chalice_patches import generate_swagger, _generate_route_method
 
 
+SwaggerGenerator.generate_swagger = generate_swagger
 SwaggerGenerator._generate_route_method = _generate_route_method
 
 
@@ -12,10 +13,11 @@ def describe_response(status_code: str, **kwargs: str) -> Callable:
     """Decorator to describe a route's responses.
 
     Example:
-        from leangle import describe_response
+        import leangle
+
 
         @app.route('/', methods=['POST'])
-        @describe_response(201, description='Created')
+        @leangle.describe_response(201, description='Created')
         def index():
             return Response(status_code=201)
 
@@ -36,3 +38,25 @@ def describe_response(status_code: str, **kwargs: str) -> Callable:
         return func
 
     return annotate_function
+
+
+_leangle_schemas = {}
+
+
+def add_schema(name):
+    """Add a model to chalice from a schema.
+
+    Example:
+        import leangle
+
+
+        @leangle.add_schema('PetSchema')
+        PetSchema(Schema):
+            name = fields.Str()
+
+    """
+    def wrapper(func):
+        _leangle_schemas[name] = func
+        return func
+
+    return wrapper

@@ -1,7 +1,30 @@
+import copy
 import inspect
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
-from chalice.app import RouteEntry  # noqa
+from chalice.app import Chalice, RestAPI, RouteEntry  # noqa
+
+from marshmallow_jsonschema import JSONSchema
+
+from leangle import _leangle_schemas
+
+
+def generate_swagger(self, app, rest_api=None):
+    # type: (Chalice, Optional[RestAPI]) -> Dict[str, Any]
+    api = copy.deepcopy(self._BASE_TEMPLATE)
+    api['info']['title'] = app.app_name
+    self._add_binary_types(api, app)
+    self._add_route_paths(api, app)
+    self._add_resource_policy(api, rest_api)
+    self._add_validators(api, app)
+    self._add_model_definitions(api, rest_api)
+    _add_leangle_schemas(api, rest_api)
+    return api
+
+
+def _add_leangle_schemas(api, rest_api):
+    for name, schema in _leangle_schemas.items():
+        api['definitions'][name] = JSONSchema().dump(schema)
 
 
 def _generate_route_method(self, view: RouteEntry) -> Dict[str, Any]:

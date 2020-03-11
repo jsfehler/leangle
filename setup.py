@@ -3,6 +3,7 @@ from setuptools import setup, find_packages
 
 install_requires = [
     'chalice==1.13.0',
+    'marshmallow-jsonschema',
 ]
 
 setup(
