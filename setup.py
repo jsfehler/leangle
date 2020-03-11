@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 install_requires = [
-    'chalice',
+    'chalice==1.13.0',
 ]
 
 setup(
