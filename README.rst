@@ -1,4 +1,4 @@
-Leangle
+leangle
 =======
 
 .. image:: https://img.shields.io/github/license/jsfehler/leangle.svg
@@ -13,6 +13,7 @@ Describe API Responses
 ------------------------
 
 API Responses can be described with the `describe_response` decorator.
+They will be added as documentation to the API Gateway.
 They should go after the route decorator, and can be stacked.
 
 .. code-block:: python
@@ -31,6 +32,8 @@ Add schemas
 ~~~~~~~~~~~
 
 Schema objects can be defined using `marshmallow <https://github.com/marshmallow-code/marshmallow>`_
+
+When decorated with the `add_schema` decorator, they will be added as models to the API Gateway.
 
 .. code-block:: python
 
