@@ -25,6 +25,14 @@ def describe_response(status_code: str, **kwargs: str) -> Callable:
         func._leangle_responses = getattr(func, '_leangle_responses', {})
         func._leangle_responses[status_code] = kwargs
 
+        if not kwargs.get('schema'):
+            kwargs['schema'] = {'$ref': '#/definitions/Empty'}
+
+        # Transform schema name into reference
+        else:
+            schema_name = kwargs['schema']
+            kwargs['schema'] = {'$ref': f'#/definitions/{schema_name}'}
+
         return func
 
     return annotate_function
