@@ -38,12 +38,12 @@ def _generate_route_method(self, view: RouteEntry) -> Dict[str, Any]:
         self._generate_precanned_responses(),
     )
 
-    current = {
+    current: Dict[str, Any] = {
         'consumes': view.content_types,
         'produces': ['application/json'],
         'responses': responses,
         'x-amazon-apigateway-integration': self._generate_apig_integ(view),
-    }  # type: Dict[str, Any]
+    }
     docstring = inspect.getdoc(view.view_function)
     if docstring:
         doc_lines = docstring.splitlines()
