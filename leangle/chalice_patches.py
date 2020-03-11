@@ -4,12 +4,13 @@ from typing import Any, Dict, Optional
 
 from chalice.app import Chalice, RestAPI, RouteEntry  # noqa
 
-from marshmallow_jsonschema import JSONSchema
-
 from leangle import _leangle_schemas
+
+from marshmallow_jsonschema import JSONSchema
 
 
 def generate_swagger(self, app, rest_api=None):
+    """Monkey Patch SwaggerGenerator.generate_swagger."""
     # type: (Chalice, Optional[RestAPI]) -> Dict[str, Any]
     api = copy.deepcopy(self._BASE_TEMPLATE)
     api['info']['title'] = app.app_name
@@ -18,18 +19,18 @@ def generate_swagger(self, app, rest_api=None):
     self._add_resource_policy(api, rest_api)
     self._add_validators(api, app)
     self._add_model_definitions(api, rest_api)
-    _add_leangle_schemas(api, rest_api)
+    _add_leangle_schemas(api)
     return api
 
 
-def _add_leangle_schemas(api, rest_api):
+def _add_leangle_schemas(api: Dict):
+    """Add schema dumps to the API."""
     for name, schema in _leangle_schemas.items():
         api['definitions'][name] = JSONSchema().dump(schema)
 
 
 def _generate_route_method(self, view: RouteEntry) -> Dict[str, Any]:
-    """Monkey Patch SwaggerGenerator._generate_route_method"""
-
+    """Monkey Patch SwaggerGenerator._generate_route_method."""
     responses = getattr(
         view.view_function,
         '_leangle_responses',
@@ -40,8 +41,7 @@ def _generate_route_method(self, view: RouteEntry) -> Dict[str, Any]:
         'consumes': view.content_types,
         'produces': ['application/json'],
         'responses': responses,
-        'x-amazon-apigateway-integration': self._generate_apig_integ(
-            view),
+        'x-amazon-apigateway-integration': self._generate_apig_integ(view),
     }  # type: Dict[str, Any]
     docstring = inspect.getdoc(view.view_function)
     if docstring:

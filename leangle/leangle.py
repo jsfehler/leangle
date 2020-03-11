@@ -2,7 +2,7 @@ from typing import Callable
 
 from chalice.deploy.swagger import SwaggerGenerator
 
-from .chalice_patches import generate_swagger, _generate_route_method
+from .chalice_patches import _generate_route_method, generate_swagger
 
 
 SwaggerGenerator.generate_swagger = generate_swagger

@@ -8,5 +8,5 @@ def test_describe_response():
         pass
 
     assert test_func._leangle_responses == {
-        '201': "Yep, it's wood"
+        '201': "Yep, it's wood",
     }
