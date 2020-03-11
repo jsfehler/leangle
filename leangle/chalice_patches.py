@@ -1,4 +1,3 @@
-import inspect
 from typing import Any, Dict, Optional
 
 from chalice.app import Chalice, RouteEntry  # noqa
@@ -11,6 +10,7 @@ from marshmallow_jsonschema import JSONSchema
 
 
 original_generate_swagger = SwaggerGenerator.generate_swagger
+original_generate_route_method = SwaggerGenerator._generate_route_method
 
 
 def patch_generate_swagger():
@@ -30,35 +30,17 @@ def _add_leangle_schemas(api: Dict):
         api['definitions'][name] = JSONSchema().dump(schema)
 
 
-def _generate_route_method(self, view: RouteEntry) -> Dict[str, Any]:
+def patch_generate_route_method():
     """Monkey Patch SwaggerGenerator._generate_route_method."""
-    responses = getattr(
-        view.view_function,
-        '_leangle_responses',
-        self._generate_precanned_responses(),
-    )
+    def _generate_route_method(self, view: RouteEntry) -> Dict[str, Any]:
+        responses = getattr(
+            view.view_function,
+            '_leangle_responses',
+            self._generate_precanned_responses(),
+        )
 
-    current: Dict[str, Any] = {
-        'consumes': view.content_types,
-        'produces': ['application/json'],
-        'responses': responses,
-        'x-amazon-apigateway-integration': self._generate_apig_integ(view),
-    }
-    docstring = inspect.getdoc(view.view_function)
-    if docstring:
-        doc_lines = docstring.splitlines()
-        current['summary'] = doc_lines[0]
-        if len(doc_lines) > 1:
-            current['description'] = '\n'.join(doc_lines[1:]).strip('\n')
-    if view.api_key_required:
-        # When this happens we also have to add the relevant portions
-        # to the security definitions.  We have to someone indicate
-        # this because this neeeds to be added to the global config
-        # file.
-        current.setdefault('security', []).append({'api_key': []})
-    if view.authorizer:
-        current.setdefault('security', []).append(
-            {view.authorizer.name: []})
-    if view.view_args:
-        self._add_view_args(current, view.view_args)
-    return current
+        current = original_generate_route_method(self, view)
+        current['responses'] = responses
+        return current
+
+    return _generate_route_method

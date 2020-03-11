@@ -6,10 +6,10 @@ from chalice.deploy.swagger import SwaggerGenerator
 _leangle_schemas = {}
 
 # Patches
-from .chalice_patches import _generate_route_method, patch_generate_swagger  # NOQA
+from .chalice_patches import patch_generate_route_method, patch_generate_swagger  # NOQA
 
 SwaggerGenerator.generate_swagger = patch_generate_swagger()
-SwaggerGenerator._generate_route_method = _generate_route_method
+SwaggerGenerator._generate_route_method = patch_generate_route_method()
 
 
 def describe_response(status_code: str, **kwargs: str) -> Callable:
