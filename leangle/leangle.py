@@ -51,7 +51,7 @@ def add_schema(name):
 
 
         @leangle.add_schema('PetSchema')
-        PetSchema(Schema):
+        class PetSchema(Schema):
             name = fields.Str()
 
     """

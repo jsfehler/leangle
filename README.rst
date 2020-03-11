@@ -42,7 +42,7 @@ When decorated with the `add_schema` decorator, they will be added as models to 
 
 
   @leangle.add_schema('BaseSchema')
-  BaseSchema(Schema):
+  class BaseSchema(Schema):
       name = fields.Str()
 
 
