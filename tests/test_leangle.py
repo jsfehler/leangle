@@ -33,7 +33,12 @@ def test_describe_response_has_schema():
     }
 
 
-def test_add_schema():
+def test_add_schema(request):
+
+    def fin():
+        leangle.leangle._leangle_schemas = {}
+
+    request.addfinalizer(fin)
 
     @leangle.add_schema('PetSchema')
     class PetSchema(Schema):

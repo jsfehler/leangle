@@ -27,7 +27,8 @@ def patch_generate_swagger():
 def _add_leangle_schemas(api: Dict):
     """Add schema dumps to the API."""
     for name, schema in _leangle_schemas.items():
-        api['definitions'][name] = JSONSchema().dump(schema)
+        api['definitions'][name] = JSONSchema().dump(schema())['definitions']
+    return api
 
 
 def patch_generate_route_method():
