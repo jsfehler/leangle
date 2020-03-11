@@ -18,9 +18,10 @@ def patch_generate_swagger():
     def generate_swagger(self,
                          app: Chalice,
                          rest_api: Optional[RestAPI] = None) -> Dict[str, Any]:
-        api: Dict[str, Any] = original_generate_swagger(app, rest_api)
+        api: Dict[str, Any] = original_generate_swagger(self, app, rest_api)
         _add_leangle_schemas(api)
         return api
+    return generate_swagger
 
 
 def _add_leangle_schemas(api: Dict):
