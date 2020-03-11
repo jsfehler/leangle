@@ -5,6 +5,11 @@ leangle
     :alt: GitHub
     :target: https://github.com/jsfehler/leangle/blob/master/LICENSE
 
+.. image:: https://travis-ci.org/jsfehler/leangle.svg?branch=master
+    :target: https://travis-ci.org/jsfehler/leangle
+
+.. image:: https://coveralls.io/repos/github/jsfehler/leangle/badge.svg?branch=master
+    :target: https://coveralls.io/github/jsfehler/leangle?branch=master
 
 An add-on for `chalice <https://github.com/aws/chalice>`_ to improve documentation of an API Gateway.
 
