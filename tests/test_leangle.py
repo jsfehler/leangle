@@ -5,31 +5,33 @@ from marshmallow import Schema, fields
 
 def test_describe_parameter():
 
-    @leangle.describe.parameter('body', description="Is it wood?")
+    @leangle.describe.parameter(name='body', description="Is it wood?")
     def test_func():
         pass
 
-    assert test_func._leangle_parameters == {
-        'body': {
+    assert test_func._leangle_parameters == [
+        {
+            'name': 'body',
             'description': "Is it wood?",
         },
-    }
+    ]
 
 
 def test_describe_parmeter_has_schema():
 
-    @leangle.describe.response(
-        'body', description="Is it wood?", schema='WoodRequest',
+    @leangle.describe.parameter(
+        name='body', description="Is it wood?", schema='WoodRequest',
     )
     def test_func():
         pass
 
-    assert test_func._leangle_responses == {
-        'body': {
+    assert test_func._leangle_parameters == [
+        {
+            'name': 'body',
             'description': "Is it wood?",
             'schema': {'$ref': '#/definitions/WoodRequest'},
         },
-    }
+    ]
 
 
 def test_describe_response():

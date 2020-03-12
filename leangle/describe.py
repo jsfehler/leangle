@@ -1,7 +1,7 @@
 from typing import Callable
 
 
-def parameter(name: str, **kwargs: str) -> Callable:
+def parameter(**kwargs: str) -> Callable:
     """Decorator to describe a route's parameters.
 
     Example:
@@ -18,8 +18,8 @@ def parameter(name: str, **kwargs: str) -> Callable:
     """
     def annotate_function(func: Callable) -> Callable:
         # Ensure function has patched attribute
-        func._leangle_parameters = getattr(func, '_leangle_parameters', {})
-        func._leangle_parameters[name] = kwargs
+        func._leangle_parameters = getattr(func, '_leangle_parameters', [])
+        func._leangle_parameters.append(kwargs)
 
         # Transform schema name into reference
         if kwargs.get('schema'):
