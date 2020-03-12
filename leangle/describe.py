@@ -23,6 +23,7 @@ def parameter(**kwargs: str) -> Callable:
 
         if kwargs.get('_in'):
             kwargs['in'] = kwargs.get('_in')
+            kwargs.pop('_in')
 
         # Transform schema name into reference
         if kwargs.get('schema'):
