@@ -47,7 +47,10 @@ def patch_generate_route_method():
         )
 
         current = original_generate_route_method(self, view)
-        current['parameters'] = [*current['parameters'], *parameters]
+
+        current_parameters = current.get('parameters', [])
+
+        current['parameters'] = [*current_parameters, *parameters]
         current['responses'] = responses
         return current
 
