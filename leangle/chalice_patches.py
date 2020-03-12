@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Callable, Dict, Optional
 
 from chalice.app import Chalice, RouteEntry  # noqa
 from chalice.deploy.swagger import SwaggerGenerator
@@ -13,7 +13,7 @@ original_generate_swagger = SwaggerGenerator.generate_swagger
 original_generate_route_method = SwaggerGenerator._generate_route_method
 
 
-def patch_generate_swagger():
+def patch_generate_swagger() -> Callable:
     """Monkey Patch SwaggerGenerator.generate_swagger."""
     def generate_swagger(self,
                          app: Chalice,
@@ -26,12 +26,12 @@ def patch_generate_swagger():
 
 def _add_leangle_schemas(api: Dict):
     """Add schema dumps to the API."""
-    for _, schema in _leangle_schemas.items():
+    for schema in _leangle_schemas:
         api['definitions'].update(JSONSchema().dump(schema())['definitions'])
     return api
 
 
-def patch_generate_route_method():
+def patch_generate_route_method() -> Callable:
     """Monkey Patch SwaggerGenerator._generate_route_method."""
     def _generate_route_method(self, view: RouteEntry) -> Dict[str, Any]:
         responses = getattr(

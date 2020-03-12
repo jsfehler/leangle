@@ -73,11 +73,11 @@ def test_chalice_swagger_generator_response():
 def test_add_leangle_schemas(request):
 
     def fin():
-        leangle.leangle._leangle_schemas = {}
+        leangle.leangle._leangle_schemas = []
 
     request.addfinalizer(fin)
 
-    @leangle.add_schema('BaseSchema')
+    @leangle.add_schema()
     class BaseSchema(Schema):
         name = fields.Str()
 

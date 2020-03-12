@@ -66,12 +66,12 @@ def test_describe_response_has_schema():
 def test_add_schema(request):
 
     def fin():
-        leangle.leangle._leangle_schemas = {}
+        leangle.leangle._leangle_schemas = []
 
     request.addfinalizer(fin)
 
-    @leangle.add_schema('PetSchema')
+    @leangle.add_schema()
     class PetSchema(Schema):
         name = fields.Str()
 
-    assert leangle.leangle._leangle_schemas == {'PetSchema': PetSchema}
+    assert leangle.leangle._leangle_schemas == [PetSchema]

@@ -64,7 +64,7 @@ When decorated with the `add_schema` decorator, they will be added as models to 
   from marshmallow import Schema, fields
 
 
-  @leangle.add_schema('BaseSchema')
+  @leangle.add_schema()
   class BaseSchema(Schema):
       name = fields.Str()
 
