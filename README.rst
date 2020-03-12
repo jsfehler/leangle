@@ -14,10 +14,10 @@ leangle
 An add-on for `chalice <https://github.com/aws/chalice>`_ to improve documentation of an API Gateway.
 
 
-Describe API Responses
+Describe API Parameters
 ------------------------
 
-API Responses can be described with the `describe_response` decorator.
+API Responses can be described with the `describe.parameter` decorator.
 They will be added as documentation to the API Gateway.
 They should go after the route decorator, and can be stacked.
 
@@ -27,8 +27,26 @@ They should go after the route decorator, and can be stacked.
 
 
     @app.route('/', methods=['POST'])
-    @leangle.describe_response(201, description='Created')
-    @leangle.describe_response(422, description='Missing Parameter')
+    @leangle.describe.parameter('body', description='Create a new widget', schema='WidgetSchema')
+    def index():
+        return Response(status_code=201)
+
+
+Describe API Responses
+------------------------
+
+API Responses can be described with the `describe.response` decorator.
+They will be added as documentation to the API Gateway.
+They should go after the route decorator, and can be stacked.
+
+.. code-block:: python
+
+    import leangle
+
+
+    @app.route('/', methods=['POST'])
+    @leangle.describe.response(201, description='Created')
+    @leangle.describe.response(422, description='Missing Parameter')
     def index():
         return Response(status_code=201)
 
@@ -52,6 +70,6 @@ When decorated with the `add_schema` decorator, they will be added as models to 
 
 
   @app.route('/', methods=['POST'])
-  @leangle.describe_response(201, description='Created', schema='BaseSchema')
+  @leangle.describe.response(201, description='Created', schema='BaseSchema')
   def index():
       return Response(status_code=201)
