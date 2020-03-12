@@ -21,6 +21,9 @@ def parameter(**kwargs: str) -> Callable:
         func._leangle_parameters = getattr(func, '_leangle_parameters', [])
         func._leangle_parameters.append(kwargs)
 
+        if kwargs.get('_in'):
+            kwargs['in'] = kwargs.get('_in')
+
         # Transform schema name into reference
         if kwargs.get('schema'):
             schema_name = kwargs['schema']
