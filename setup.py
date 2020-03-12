@@ -16,7 +16,7 @@ install_requires = [
 
 setup(
     name='leangle',
-    version='0.0.4',
+    version='0.0.5',
     description='Add response descriptions to chalice',
     long_description=read('README.rst'),
     author='Joshua Fehler',
