@@ -26,7 +26,7 @@ def patch_generate_swagger():
 
 def _add_leangle_schemas(api: Dict):
     """Add schema dumps to the API."""
-    for name, schema in _leangle_schemas.items():
+    for _, schema in _leangle_schemas.items():
         api['definitions'].update(JSONSchema().dump(schema())['definitions'])
     return api
 
@@ -47,7 +47,7 @@ def patch_generate_route_method():
         )
 
         current = original_generate_route_method(self, view)
-        current['parameters'] = parameters
+        current['parameters'] = [*current['parameters'], *parameters]
         current['responses'] = responses
         return current
 

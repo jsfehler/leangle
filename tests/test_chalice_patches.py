@@ -31,7 +31,7 @@ def test_add_leangle_schemas(request):
                     },
                 },
                 'type': 'object',
-            }
+            },
         },
     }
 
