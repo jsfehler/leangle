@@ -40,7 +40,14 @@ def patch_generate_route_method():
             self._generate_precanned_responses(),
         )
 
+        parameters = getattr(
+            view.view_function,
+            '_leangle_parameters',
+            {},
+        )
+
         current = original_generate_route_method(self, view)
+        current['parameters'] = parameters
         current['responses'] = responses
         return current
 
