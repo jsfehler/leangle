@@ -13,9 +13,6 @@ leangle
 
 An add-on for `chalice <https://github.com/aws/chalice>`_ to improve documentation of an API Gateway.
 
-Raison d'être
--------------
-
 As of version 1.13.0, chalice does not support models for the request or response.
 This means any documentation generated for an API Gateway is going to be much less useful.
 
@@ -26,7 +23,7 @@ built-in support for marshmallow schemas.
 Describe API Parameters
 ------------------------
 
-API Responses can be described with the `describe.parameter` decorator.
+API Responses can be described with the *describe.parameter* decorator.
 They will be added as documentation to the API Gateway.
 They should go after the route decorator, and can be stacked.
 
@@ -43,13 +40,13 @@ They should go after the route decorator, and can be stacked.
 
 Describing the 'in' field of a parameter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-`_in` is used, as `in` is a reserved word in Python.
+*_in* is used, as *in* is a reserved word in Python.
 
 
 Describe API Responses
 ------------------------
 
-API Responses can be described with the `describe.response` decorator.
+API Responses can be described with the *describe.response* decorator.
 They will be added as documentation to the API Gateway.
 They should go after the route decorator, and can be stacked.
 
@@ -70,7 +67,7 @@ Add schemas
 
 Schema objects can be defined using `marshmallow <https://github.com/marshmallow-code/marshmallow>`_
 
-When decorated with the `add_schema` decorator, they will be added as models to the API Gateway.
+When decorated with the *add_schema* decorator, they will be added as models to the API Gateway.
 
 The name of these Schema classes can be used in the describe decorators.
 
