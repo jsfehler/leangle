@@ -43,7 +43,7 @@ def patch_generate_route_method():
         parameters = getattr(
             view.view_function,
             '_leangle_parameters',
-            {},
+            [],
         )
 
         current = original_generate_route_method(self, view)
