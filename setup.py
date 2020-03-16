@@ -10,9 +10,12 @@ def read(filename):
 
 
 install_requires = [
-    'chalice==1.13.0',
     'marshmallow-jsonschema',
 ]
+
+extras_require = {
+    'chalice': ['chalice==1.13.0'],
+}
 
 setup(
     name='leangle',
@@ -23,6 +26,7 @@ setup(
     url='https://github.com/jsfehler/leangle',
     packages=find_packages(),
     install_requires=install_requires,
+    extras_require=extras_require,
     license='GNU General Public License v3.0',
     classifiers=[
         'Programming Language :: Python :: 3.6',
