@@ -1,6 +1,14 @@
 leangle
 =======
 
+.. image:: https://img.shields.io/pypi/v/leangle.svg
+    :target: https://pypi.org/project/leangle
+    :alt: PyPI
+
+.. image:: https://img.shields.io/pypi/pyversions/leangle.svg
+    :alt: PyPI - Python Version
+    :target: https://github.com/jsfehler/leangle
+
 .. image:: https://img.shields.io/github/license/jsfehler/leangle.svg
     :alt: GitHub
     :target: https://github.com/jsfehler/leangle/blob/master/LICENSE
@@ -18,6 +26,23 @@ This means any documentation generated for an API Gateway is going to be much le
 
 leangle improves this with a collection of decorators for chalice route functions, and
 built-in support for marshmallow schemas.
+
+Installation
+------------
+
+Via pip:
+
+.. code-block:: bash
+
+  pip install leangle
+
+
+Chalice itself is an optional dependency. This can be useful for testing and validation,
+but should not be used for the version of chalice deployed to AWS.
+
+.. code-block:: bash
+
+  pip install leangle[chalice]
 
 
 Describe API Parameters
