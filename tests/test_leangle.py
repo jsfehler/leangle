@@ -3,6 +3,15 @@ import leangle
 from marshmallow import Schema, fields
 
 
+def test_describe_tags():
+
+    @leangle.describe.tags(["Foobar"])
+    def test_func():
+        pass
+
+    assert ["Foobar"] == test_func._leangle_tags
+
+
 def test_describe_parameter():
 
     @leangle.describe.parameter(name='body', description="Is it wood?")

@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, List
 
 
 def parameter(**kwargs: str) -> Callable:
@@ -57,6 +57,15 @@ def response(status_code: str, **kwargs: str) -> Callable:
         if kwargs.get('schema'):
             schema_name = kwargs['schema']
             kwargs['schema'] = {'$ref': f'#/definitions/{schema_name}'}
+
+        return func
+
+    return annotate_function
+
+
+def tags(tag_list: List[str]) -> Callable:
+    def annotate_function(func: Callable) -> Callable:
+        func._leangle_tags = tag_list
 
         return func
 

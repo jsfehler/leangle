@@ -31,27 +31,45 @@ def _add_leangle_schemas(api: Dict):
     return api
 
 
+def _add_parameters(view: RouteEntry, current: Dict[str, Any]):
+    parameters = getattr(
+        view.view_function,
+        '_leangle_parameters',
+        [],
+    )
+
+    # Combine existing parameters with leangle defined ones
+    current_parameters = current.get('parameters', [])
+    current['parameters'] = [*current_parameters, *parameters]
+
+    return current
+
+
+def _add_tags(view: RouteEntry, current: Dict[str, Any]):
+    tags = getattr(
+        view.view_function,
+        '_leangle_tags',
+        [],
+    )
+
+    current['tags'] = tags
+
+    return current
+
+
 def patch_generate_route_method() -> Callable:
     """Monkey Patch SwaggerGenerator._generate_route_method."""
     def _generate_route_method(self, view: RouteEntry) -> Dict[str, Any]:
-        responses = getattr(
+        current = original_generate_route_method(self, view)
+        current['responses'] = getattr(
             view.view_function,
             '_leangle_responses',
             self._generate_precanned_responses(),
         )
 
-        parameters = getattr(
-            view.view_function,
-            '_leangle_parameters',
-            [],
-        )
+        current = _add_parameters(view, current)
+        current = _add_tags(view, current)
 
-        current = original_generate_route_method(self, view)
-
-        current_parameters = current.get('parameters', [])
-
-        current['parameters'] = [*current_parameters, *parameters]
-        current['responses'] = responses
         return current
 
     return _generate_route_method
