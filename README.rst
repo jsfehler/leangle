@@ -87,6 +87,20 @@ They should go after the route decorator, and can be stacked.
         return Response(status_code=201)
 
 
+Describe Method Tags
+--------------------
+
+.. code-block:: python
+
+    import leangle
+
+
+    @app.route('/', methods=['POST'])
+    @leangle.describe.tags(["x-large"])
+    def index():
+        return Response(status_code=201)
+
+
 Add schemas
 ~~~~~~~~~~~
 
